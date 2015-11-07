@@ -83,7 +83,7 @@ function nextClick()
 {
     if (fitsRequired())
     {
-        displayInfo();
+        //displayInfo();
         sendParseData();
         changeImage();
         document.getElementById("answer").value = "";
@@ -108,14 +108,14 @@ function fitsRequired()
     }
     return true;
 }    
-function displayInfo()
+/*function displayInfo()
 {
     var textbox1 = document.getElementById("tviewer");
     var textbox = document.getElementById("tviewer2");
     text = document.getElementById("answer").value;
     textbox1.innerHTML = currentId;
     textbox.innerHTML = "tag: " + text + " numPpl: " + findNumPpl() + " good: " + findGoodPic();  
-}
+}*/
 function changeImage() 
 {
     var y = document.getElementById("image");
