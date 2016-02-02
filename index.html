@@ -3,34 +3,32 @@
 </head>
 
 <body>
-
-<h2 style="text-align:center;">Visual Affect Labeling</h2>
-<p style="text-align:center;"> This website is used to collect a dataset about emotion within images. For each image, you will be asked to verify and add unique tags pertaining to the main character's emotion, within the image. Firstly, if some tags already exist, you will need to verify whether a cerain tag is relevant (or not), by selecting "yes" or "no" to is this a good tag. Secondly, you will be given the opportunity to add unique tags (words or short phrases) of your own and will need to identify some basic information about the image (how many people and is this a good image for our purposes). For each tag you have, enter it in the textbox and then click the "add" button to have it saved and have the opportunity to input more tags. Please do not put multiple tags in the same entry. You can view the data <a href="http://shloak.github.io/VALData">here</a>. Thank you for your help!</p>
-
-
-  <p id = "startButtonPara" style="text-align:center;"><button onclick="startButton()">Begin!</button></p>
-
-  <img id="image" style="margin-left: 350; display:none;" src="http://mscoco.org/images/44474" />
+  <h2 style="text-align:center;">Visual Affect Labeling</h2>
+  <p style="text-align:center;"> This website is used to collect a dataset about emotion within images. For each image, you will be asked to verify and add unique tags pertaining to the main character's emotion, within the image. Firstly, if some tags already exist, you will need to
+    verify whether a cerain tag is relevant (or not), by selecting "yes" or "no" to is this a good tag. Secondly, you will be given the opportunity to add unique tags (words or short phrases) of your own and will need to identify some basic information
+    about the image (how many people and is this a good image for our purposes). For each tag you have, enter it in the textbox and then click the "add" button to have it saved and have the opportunity to input more tags. Please do not put multiple tags
+    in the same entry. You can view the data <a href="http://shloak.github.io/VALData">here</a>. Thank you for your help!</p>
+  <p id="startButtonPara" style="text-align:center;">
+    <button onclick="startButton()">Begin!</button>
+  </p>
+  <img id="image" hspace = "350" style="display:none;" />
   <div id="tagPara" style="display: none; text-align:center;">
-    <h4 id="tagview"> </h4>
-    Is this a good tag?
+    <h4 id="tagview"> </h4> Is this a good tag?
     <input type="radio" name="tags" id="yesTag">Yes
     <input type="radio" name="tags" id="noTag">No
     <button onclick="nextTagClick()">Next Tag</button>
   </div>
-
   <br>
   <div id="questionsPara" style="display:none; text-align:center;">New tags for emotion:
     <input type="text" name="answer" id="answer">
     <button onclick="addTag()">Add</button>
     <br>
-    <br> How many people are there: </h>
+    <br> How many people are there:
     <input type="radio" name="people" id="people_zero">0
     <input type="radio" name="people" id="people_one">1
     <input type="radio" name="people" id="people_two">2
     <input type="radio" name="people" id="people_three">3
     <input type="radio" name="people" id="people_four">4 or more
-
     <br>
     <br> Is this a good image for this task:
     <input type="radio" name="good" id="good_yes">Yes
@@ -39,12 +37,10 @@
     <br>
     <button onclick="nextPicClick()">Next Picture</button>
   </div>
-
 </body>
-
 <script>
   Parse.initialize("p4tWFy9DoQKEKAxKNycBu3QH6htzRcZDzMw1ywFa", "kg3IFa5DBIGXraX5hegFsSM29giG1btPM3wUvxpN");
-  var currentObj;
+  var currentObj = [];
   //var currentTags;
   var currentIndexObj = 0;
   var currentIndexTag = 0;
@@ -65,42 +61,25 @@
       success: function(results) {
         //alert("Successfully retrieved " + results.length + " objects.");
         //alert(results[0].get("imageId"));
-        currentObj = results.slice(0);
-        // Do something with the returned Parse.Object values
-        //arrayObjects = results.slice(0);
-        //for (var i = 0; i < 5; i++) {
-        //arrayObjects[i] = results[i];
-        //alert(object.id + ' - ' + object.get('tag'));
-        //document.getElementById("cap_20").innerHTML = object.get("tag");
-        //}
+        currentObj = results.slice(0, results.length);
+        //console.log('currentObj[0].get("tag")', currentObj[0].get("tag"));
+        if (currentObj[currentIndexObj].get("tag") == null) {
+          displayQuestions();
+        } else {
+          showTag();
+        }
+        document.getElementById("image").src = "http://mscoco.org/images/" + currentObj[currentIndexObj].get("imageId");
+        document.getElementById("image").style.display = "block";
       },
       error: function(error) {
         alert("Error: " + error.code + " " + error.message);
       }
     });
-    //currentTags = currentObj[0].get("tag");
-    //alert(currentTags[0]);
-    //alert(currentTags[1]);
-    //alert(currentTags.length);
-    //document.getElementById("tagview").innerHTML = currentTags[0];
-    if (currentObj[currentIndexObj].get("tag") == null)
-    {
-        displayQuestions();
-    }
-    else
-    {
-      showTag();
-    }
-    document.getElementById("image").src = "http://mscoco.org/images/" + currentObj[currentIndexObj].get("imageId");
-    //alert("http://mscoco.org/images/" + currentObj[currentIndexObj].get("imageId"));
-    document.getElementById("image").style.display = "block";
-    //showTag();
   }
 
   function nextTagClick() {
     var currentArr;
-    if (document.getElementById("yesTag").checked || document.getElementById("noTag").checked)
-    {
+    if (document.getElementById("yesTag").checked || document.getElementById("noTag").checked) {
       if (document.getElementById("yesTag").checked) {
         //alert("entered good");
         currentArr = currentObj[currentIndexObj].get("goodTag");
@@ -124,8 +103,7 @@
         displayQuestions();
       }
       showTag();
-    }
-    else
+    } else
       alert("You haven't selected an option.");
   }
 
@@ -138,11 +116,11 @@
     document.getElementById("yesTag").checked = false;
     document.getElementById("noTag").checked = false;
     var ele = document.getElementsByName("people");
-      for(var i = 0; i < ele.length; i++)
-        ele[i].checked = false;
+    for (var i = 0; i < ele.length; i++)
+      ele[i].checked = false;
     ele = document.getElementsByName("good");
-      for(var i = 0; i < ele.length; i++)
-        ele[i].checked = false;
+    for (var i = 0; i < ele.length; i++)
+      ele[i].checked = false;
   }
 
   function showTag() {
@@ -156,51 +134,39 @@
     }
   }
 
-  function addTag()
-  {
+  function addTag() {
     var currString = document.getElementById("answer").value;
     var currArr;
     var exists = true;
-    if (currString.length > 2)
-    {
+    if (currString.length > 2) {
       currArr = currentObj[currentIndexObj].get("tag");
-      if (currArr == null)
-      {
+      if (currArr == null) {
         currentObj[currentIndexObj].add("tag", currString);
         currentObj[currentIndexObj].add("goodTag", 0);
         currentObj[currentIndexObj].add("badTag", 0);
         currentObj[currentIndexObj].save();
         document.getElementById("answer").value = "";
-      }
-      else
-      {
-        for (var i = 0; i < currArr.length; i++)
-        {
-          if (currArr[i] == currString)
-          {
+      } else {
+        for (var i = 0; i < currArr.length; i++) {
+          if (currArr[i] == currString) {
             exists = false;
           }
         }
-        if (exists)
-        {
+        if (exists) {
           currentObj[currentIndexObj].add("tag", currString);
           currentObj[currentIndexObj].add("goodTag", 0);
           currentObj[currentIndexObj].add("badTag", 0);
           currentObj[currentIndexObj].save();
           document.getElementById("answer").value = "";
-        }
-        else
-        {
+        } else {
           alert("This tag already exists");
         }
       }
-    }
-    else
+    } else
       alert("Invalid tag");
   }
 
-  function saveParse()
-  {
+  function saveParse() {
     //alert("parse save enter");
     currentObj[currentIndexObj].add("numPeople", findNumPpl());
     currentObj[currentIndexObj].add("goodPic", findGoodPic());
@@ -208,65 +174,55 @@
     //alert("parse saved exit");
   }
 
-  function nextPicClick()
-  {
-      if (fitsRequired())
-      {
-        saveParse();
-        currentIndexObj++;
-        currentIndexTag = 0;
-        uncheck();
-
-        document.getElementById("image").src = "http://mscoco.org/images/" + currentObj[currentIndexObj].get("imageId");
-        if (currentObj[currentIndexObj].get("tag") == null)
-        {
-          displayQuestions();
-        }
-        else
-        {
-          document.getElementById("tagPara").style.display = "block";
-          document.getElementById("questionsPara").style.display = "none";
-          showTag();
-        }
+  function nextPicClick() {
+    if (fitsRequired()) {
+      saveParse();
+      currentIndexObj++;
+      currentIndexTag = 0;
+      uncheck();
+      document.getElementById("image").src = "http://mscoco.org/images/" + currentObj[currentIndexObj].get("imageId");
+      if (currentObj[currentIndexObj].get("tag") == null) {
+        displayQuestions();
+      } else {
+        document.getElementById("tagPara").style.display = "block";
+        document.getElementById("questionsPara").style.display = "none";
+        showTag();
       }
+    }
   }
 
-  function fitsRequired()
-  {
-    if (findNumPpl() == "not checked")
-    {
-        alert('No number of people option checked');
-        return false;
+  function fitsRequired() {
+    if (findNumPpl() == "not checked") {
+      alert('No number of people option checked');
+      return false;
     }
-    if (findGoodPic() == "not checked")
-    {
-        alert('No good image option checked');
-        return false;
+    if (findGoodPic() == "not checked") {
+      alert('No good image option checked');
+      return false;
     }
     return true;
-  }    
+  }
 
-  function findNumPpl()
-  {
+  function findNumPpl() {
     if (document.getElementById("people_zero").checked)
-        return 0;
-    else if(document.getElementById("people_one").checked)
-        return 1;
+      return 0;
+    else if (document.getElementById("people_one").checked)
+      return 1;
     else if (document.getElementById("people_two").checked)
-        return 2;
+      return 2;
     else if (document.getElementById("people_three").checked)
-        return 3;
+      return 3;
     else if (document.getElementById("people_four").checked)
-        return 4;
+      return 4;
     return "not checked";
   }
 
-  function findGoodPic()
-  {
-    if(document.getElementById("good_yes").checked)
-        return "yes";
+  function findGoodPic() {
+    if (document.getElementById("good_yes").checked)
+      return "yes";
     else if (document.getElementById("good_no").checked)
-        return "no";
+      return "no";
     return "not checked";
   }
+
 </script>
