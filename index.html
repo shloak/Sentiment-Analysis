@@ -56,7 +56,7 @@
   function GetParse() {
     var VALData = Parse.Object.extend("VALData");
     var query = new Parse.Query(VALData);
-    query.limit(100);
+    query.limit(500);
     //query.skip(5);
     //query.exists("tag");
     query.find({
