@@ -18,10 +18,7 @@
     <button onclick="nextTagClick()">Next Tag</button>
   </div>
   <br>
-  <div id="questionsPara" style="display:none; text-align:center;">New tags for emotion:
-    <input type="text" name="answer" id="answer">
-    <button onclick="addTag()">Add</button>
-    <br>
+  <div id="questionsPara" style="display:none; text-align:center;">
     <br> How many primary participants are there:
     <input type="radio" name="people" id="people_zero">0
     <input type="radio" name="people" id="people_one">1
@@ -31,6 +28,10 @@
     <br>
     <br> What is he/she doing:
     <input type = "text" name="actionInput" id="actionInput">
+    <br> <br>
+    New tags for emotion:
+    <input type="text" name="answer" id="answer">
+    <button onclick="addTag()">Add</button>
     <br>
     <br> Is this a good image for this task:
     <input type="radio" name="good" id="good_yes">Yes
@@ -221,12 +222,12 @@
       alert('No primary participants option checked');
       return false;
     }
-    if (findGoodPic() == "not checked") {
-      alert('No good image option checked');
-      return false;
-    }
     if (findAction() == "noAction") {
       alert('No action inputted');
+      return false;
+    }
+    if (findGoodPic() == "not checked") {
+      alert('No good image option checked');
       return false;
     }
     return true;
