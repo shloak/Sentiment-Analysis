@@ -4,9 +4,15 @@
 
 <body>
   <h2 style="text-align:center;">Visual Affect Labeling</h2>
-  <p style="text-align:center;"> This website is used to collect a dataset about emotion within images. For each image, you will be asked to verify and add unique tags pertaining to the main character's emotion, within the image. Firstly, if some tags already exist, you will need to
-    verify whether a cerain tag is relevant (or not), by selecting "yes" or "no" to is this a good tag. Secondly, you will be given the opportunity to add unique tags (words or short phrases) of your own. For each tag you have, enter it in the textbox and then click the "add" button to have it saved and have the opportunity to input more tags. Please do not put multiple tags in the same entry. You will also need to identify some basic information
-    about the image: how many primary participants, what is he/she (the person you have chosen to categorize) doing, and is this a good image for our purposes. In this study, a primary participant is defined as someone whose face is clearly shown in focus or is a primary actor in the event, and whose emotion can be reasoned. <br> You can view the data <a href="http://shloak.github.io/VALData">here</a>. Thank you for your help!</p>
+  <p style="text-align:center;"> This website is being used to amass a dataset about human emotion within images. For each image you see, here's what you'll need to do: <br>
+1. Verify whether existing emotion tags are  relevant (all images may not have existing tags) <br>
+2. Identify how many <strong> primary participants </strong> there are and what they are doing <br>
+3. Add unique emotion tags of your own <br>
+4. Categorize whether this image is good for emotion tagging <br>
+You can view the data <a href="http://shloak.github.io/VALData">here</a>. Thank you for your help! <br><br>
+<strong>primary participant:</strong> someone whose face is clearly shown in focus or is a primary actor in the event, and whose emotion can be reasoned. 
+
+ </p>
   <p id="startButtonPara" style="text-align:center;">
     <button onclick="startButton()">Begin!</button>
   </p>
@@ -31,7 +37,8 @@
     <br> <br>
     New tags for emotion:
     <input type="text" name="answer" id="answer">
-    <button onclick="addTag()">Add</button>
+    <button onclick="addTag()">Add</button> <br>
+    <i>Press the add button after each new tag. Please go one at a time. </i>
     <br>
     <br> Is this a good image for this task:
     <input type="radio" name="good" id="good_yes">Yes
